@@ -30,7 +30,7 @@ pub fn GenericVector(comptime dimensions: comptime_int, comptime T: type) type {
         @compileError("Dimensions must be 2, 3 or 4!");
     }
 
-    return extern struct {
+    return struct {
         const Self = @This();
         const Data = @Vector(dimensions, T);
 
@@ -414,7 +414,7 @@ pub fn GenericVector(comptime dimensions: comptime_int, comptime T: type) type {
                 return switch (comps[0]) {
                     '0' => 0,
                     '1' => 1,
-                    else => self.data[@intFromEnum(@field(Component, &.{comps[0]}))],
+                    else => self.data[@backingInt(@field(Component, &.{comps[0]}))],
                 };
             }
 
@@ -423,7 +423,7 @@ pub fn GenericVector(comptime dimensions: comptime_int, comptime T: type) type {
                 switch (comp) {
                     '0' => result.data[i] = 0,
                     '1' => result.data[i] = 1,
-                    else => result.data[i] = self.data[@intFromEnum(@field(Component, &.{comp}))],
+                    else => result.data[i] = self.data[@backingInt(@field(Component, &.{comp}))],
                 }
             }
             return result;
